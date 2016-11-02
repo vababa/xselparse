@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}<h1>Результаты</h1>{% endblock %}
+{% block upload_form %}
+{% if errors %}
+    <p><h2>Ошибки:</h2></p>
+    {% for error in errors %}
+        <ul>
+            <li>{{ error | safe}}</li>
+        </ul>
+    {% endfor %}
+{% endif %}
+
+{% if sostav %}
+<hr>
+<h2><p>Составы:</p></h2>
+<form action="/success/" method="post">
+    {% csrf_token %}
+    <input type="text" id="id_file_name" name="file_name" value="sostav" hidden>
+    <textarea id="id_text_field" class="form-control" rows="15" name="text_field" required>{{ sostav }}</textarea><br>
+    <input type="submit" class="btn btn-default" value="Скачать csv-файл">
+</form>
+{% endif %}
+
+{% if score %}
+<hr>
+<p><h2>Итоги:</h2></p>
+<form action="/success/" method="post">
+    {% csrf_token %}
+    <input type="text" id="id_file_name" name="file_name" value="itogi" hidden>
+    <textarea id="id_text_field" class="form-control" rows="15" name="text_field" required>{{ score }}</textarea><br>
+    <input type="submit" class="btn btn-default" value="Скачать csv-файл">
+</form>
+{% endif %}
+
+
+{% if schet %}
+<hr>
+<table class="table">
+    <tr>
+        {% for item in schet.pop %}
+            <th>{{ item }}</th>
+        {% endfor %}
+    </tr>
+    {% for team in schet %}
+    <tr>
+        {% for index in team %}
+            <td>{{ index }}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+{% endblock %}
